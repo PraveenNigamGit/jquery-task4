@@ -20,15 +20,16 @@
             background-color: rgb(240, 245, 250);
             border-radius: 15px;
             padding: 15%;
-            box-shadow: 0 4px 10px rgba(23, 23, 23, 0.3);
+            box-shadow: 0 4px 10px rgba(151, 151, 151, 0.3);
             text-align: center;
+            position: relative;
         }
 
         button {
             padding: 20px 50px;
             font-size: 2rem;
             cursor: pointer;
-            background-color: rgb(84, 187, 59);
+            background-color:rgb(29, 218, 48)  ;
             color: white;
             border: none;
             border-radius: 50px;
@@ -42,7 +43,7 @@
             transition: transform 0.2s, background-color 0.3s;
         }
 
-        button:hover {
+               button:hover {
             transform: scale(1.05);
             background-color: #16a11d;
         }
@@ -53,8 +54,13 @@
             background-color: #53ce59e9;
         }
 
-        .upload-text,
-        .count {
+        button.loading {
+            background-color: rgb(29, 218, 48);
+            color: white;
+            cursor: not-allowed;
+        }
+
+        .upload-text {
             transition: transform 0.5s, opacity 0.5s;
             white-space: nowrap;
         }
@@ -62,8 +68,24 @@
         .count {
             position: absolute;
             left: 50%;
-            transform: translate(-150%, 0); 
+            transform: translate(-50%, 0);
             opacity: 0;
+            transition: transform 0.5s, opacity 0.5s, background-color 0.3s;
+            font-size: 1.5rem;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            z-index: 2;
+        }
+
+        .progress-bar {
+            position: absolute;
+            height: 100%;
+            left: 0;
+            background-color: #006300;
+            transition: width 0.3s;
+            border-radius: 50px; 
+            z-index: 1; 
         }
 
         @media (max-width: 600px) {
@@ -77,6 +99,7 @@
 <body>
     <div class="container">
         <button id="countButton">
+            <div class="progress-bar" id="progressBar"></div>
             <span class="upload-text"><i class="fas fa-upload" style="padding-right: 10px;"></i> Upload</span>
             <span class="count" id="countDisplay">0%</span>
         </button>
@@ -86,21 +109,26 @@
     <script>
         $(document).ready(function() {
             $("#countButton").click(function() {
+                const $button = $(this);
                 const $uploadText = $(".upload-text");
                 const $countDisplay = $("#countDisplay");
+                const $progressBar = $("#progressBar");
                 let count = 0;
 
-                
+                $button.addClass("loading");
                 $uploadText.css("transform", "translateX(-150%)");
+                $countDisplay.css({ opacity: 0 });
+
+                $progressBar.css("width", "0%");
 
                 setTimeout(function() {
-                    
-                    $countDisplay.css({ transform: "translate(-50%, 0)", opacity: 1 ,backgroundColor: "#1aef24c5",width:"100%",padding:"10%" });
-
+                    $countDisplay.css({ transform: "translate(-50%, 0)", opacity: 1 });
 
                     const interval = setInterval(function() {
                         count++;
                         $countDisplay.text(count + "%");
+                        $progressBar.css("width", count + "%");
+
 
                         if (count === 100) {
                             clearInterval(interval);
@@ -108,11 +136,14 @@
 
                             setTimeout(function() {
                                 $countDisplay.css({ transform: "translate(50%, 0)", opacity: 0 });
+                                $progressBar.css("width", "0%"); 
+
 
                                 
                                 setTimeout(function() {
+                                    $button.removeClass("loading");
                                     $uploadText.css("transform", "translateX(0)");
-                                    $countDisplay.text("0%").css({ opacity: 0, transform: "translate(-150%, 0)" });
+                                    $countDisplay.text("0%").css({ opacity: 0, });
                                     count = 0;
                                 }, 500);
                             }, 1400);
@@ -124,3 +155,5 @@
     </script>
 </body>
 </html>
+
+
