@@ -13,7 +13,6 @@
             align-items: center;
             height: 100vh;
             margin: 0;  
-            background: white;
         }
 
         .container {
@@ -116,26 +115,43 @@
 
                 $button.addClass("loading");
                 $uploadText.css("transform", "translateX(-150%)");
+
+
+                
                 $countDisplay.css({ opacity: 0 });
 
                 $progressBar.css("width", "0%");
 
                 setTimeout(function() {
+
+
                     $countDisplay.css({ transform: "translate(-50%, 0)", opacity: 1 });
 
                     const interval = setInterval(function() {
+
+
                         count++;
                         $countDisplay.text(count + "%");
+
+
+
+
+
                         $progressBar.css("width", count + "%");
 
 
                         if (count === 100) {
                             clearInterval(interval);
+
                             $countDisplay.text("Completed!");
 
                             setTimeout(function() {
+
+
+
                                 $countDisplay.css({ transform: "translate(50%, 0)", opacity: 0 });
                                 $progressBar.css("width", "0%"); 
+
 
 
                                 
