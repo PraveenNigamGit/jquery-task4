@@ -26,10 +26,10 @@
         }
 
         button {
-            padding: 20px 50px;
+            padding: 24px 56px;
             font-size: 2rem;
             cursor: pointer;
-            background-color:rgb(29, 218, 48)  ;
+            background-color:rgba(29, 218, 48, 0.836)  ;
             color: white;
             border: none;
             border-radius: 50px;
@@ -50,12 +50,12 @@
 
         button:active {
             
-            transform: scale(1.1);
+            transform: scale(1.3);
             background-color: #53ce59e9;
         }
 
         button.loading {
-            background-color: rgb(29, 218, 48);
+            background-color: rgb(39, 214, 57);
             color: white;
             cursor: not-allowed;
         }
@@ -84,7 +84,6 @@
             left: 0;
             background-color: #006300;
             transition: width 0.3s;
-            border-radius: 50px; 
             z-index: 1; 
         }
 
@@ -100,7 +99,7 @@
     <div class="container">
         <button id="countButton">
             <div class="progress-bar" id="progressBar"></div>
-            <span class="upload-text"><i class="fas fa-upload" style="padding-right: 10px;"></i> Upload</span>
+            <span class="upload-text"><i class="fa-solid fa-cloud-arrow-up" style="padding-right: 10px;"></i> Upload</span>
             <span class="count" id="countDisplay">0%</span>
         </button>
     </div>
