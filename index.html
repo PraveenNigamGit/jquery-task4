@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>document</title>
+    <title>Upload Button</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -15,55 +15,55 @@
             margin: 0;
             background: linear-gradient(to right, #f8f9fa, #e9ecef);
         }
-        
-        .cont1 {
-            text-align: center;
+
+        .container {
             background-color: rgb(240, 245, 250);
             border-radius: 15px;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            max-height: 90%;
             padding: 15%;
-            box-shadow: 0 4px 10px rgba(23, 23, 23, 0.307);
+            box-shadow: 0 4px 10px rgba(23, 23, 23, 0.3);
+            text-align: center;
         }
 
-       
-
         button {
-            padding: 20px 40px;
+            padding: 20px 50px;
             font-size: 2rem;
             cursor: pointer;
-            background-color: rgba(4, 185, 4, 0.84);
+            background-color: rgb(84, 187, 59);
             color: white;
             border: none;
-            font-weight: 700;
             border-radius: 50px;
-            transition: transform 0.2s, background-color 0.3s;
+            font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            overflow: hidden;
             min-width: 250px;
-            box-shadow: 3px 3px 10px rgba(0, 1, 0, 0.313);
-            margin: auto;
+            transition: transform 0.2s, background-color 0.3s;
         }
 
         button:hover {
             transform: scale(1.05);
-            background-color: #0ac214c9;
+            background-color: #16a11d;
         }
 
         button:active {
+            
             transform: scale(1.1);
-            background-color: #5cd162e9;
+            background-color: #53ce59e9;
         }
 
-        #countDisplay {
-            margin-top: 20px;
-            font-size: 1.5rem;
-            font-weight: bold;
+        .upload-text,
+        .count {
+            transition: transform 0.5s, opacity 0.5s;
+            white-space: nowrap;
+        }
+
+        .count {
+            position: absolute;
+            left: 50%;
+            transform: translate(-150%, 0); 
             opacity: 0;
-            animation: fadeIn 1s forwards;
         }
 
         @media (max-width: 600px) {
@@ -71,44 +71,54 @@
                 padding: 15px 30px;
                 font-size: 1.5rem;
             }
-
-            #countDisplay {
-                font-size: 1.2rem;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="cont1">
-        <button id="countButton" type="button">
-            <i class="fas fa-upload" style="padding-right: 10px;"></i> <span id="buttonText">Upload</span>
+    <div class="container">
+        <button id="countButton">
+            <span class="upload-text"><i class="fas fa-upload" style="padding-right: 10px;"></i> Upload</span>
+            <span class="count" id="countDisplay">0%</span>
         </button>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             $("#countButton").click(function() {
-                let count = 1;
-                $("#buttonText").text(count + "%");
-                $(".fa-upload").hide();
+                const $uploadText = $(".upload-text");
+                const $countDisplay = $("#countDisplay");
+                let count = 0;
 
-                const interval = setInterval(function() {
-                    count++;
-                    $("#buttonText").text(count + "%");
+                
+                $uploadText.css("transform", "translateX(-150%)");
 
-                    if (count === 100) {
-                        clearInterval(interval);
-                        $("#buttonText").text("Completed!");
-                        $("#buttonText").fadeOut(3000);
-                        
-                        setTimeout(function() {
-                            $("#buttonText").replaceWith("Upload");
-                            $(".fa-upload").show();
-                            location.reload(100);
+                setTimeout(function() {
+                    
+                    $countDisplay.css({ transform: "translate(-50%, 0)", opacity: 1 ,backgroundColor: "#1aef24c9",width:"100%",padding:"10%" });
 
-                        }, 3000); 
-                    }
-                }, 30);
+
+                    const interval = setInterval(function() {
+                        count++;
+                        $countDisplay.text(count + "%");
+
+                        if (count === 100) {
+                            clearInterval(interval);
+                            $countDisplay.text("Completed!");
+
+                            setTimeout(function() {
+                                $countDisplay.css({ transform: "translate(50%, 0)", opacity: 0 });
+
+                                
+                                setTimeout(function() {
+                                    $uploadText.css("transform", "translateX(0)");
+                                    $countDisplay.text("0%").css({ opacity: 0, transform: "translate(-150%, 0)" });
+                                    count = 0;
+                                }, 500);
+                            }, 3000);
+                        }
+                    }, 30);
+                }, 500);
             });
         });
     </script>
